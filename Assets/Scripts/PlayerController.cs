@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    private AudioSource _audioSource;
 
     [Header("Movement")]
     [SerializeField] private float _speed = 10f;
@@ -18,11 +19,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _legs;
     [SerializeField] private bool _isJump = false;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip _stepsSound;
+    [SerializeField] private AudioClip _jumpSound;
+
+    public void PlayJumpSound()
+    {
+        _audioSource.PlayOneShot(_jumpSound);
+    }
+
+    public void PlayStepsSound()
+    {
+        _audioSource.PlayOneShot(_stepsSound);
+    }
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -49,5 +65,15 @@ public class PlayerController : MonoBehaviour
 
         if (velocityY > 0 && _isJump == false)
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Coin"))
+        {
+            AudioManager.Instance.PlayCoinSound();
+            Destroy(collision.gameObject);
+        }
     }
 }
