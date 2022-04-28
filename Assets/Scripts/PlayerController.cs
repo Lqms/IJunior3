@@ -4,38 +4,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private StateMachine _stateMachine;
-    private RunState _runState;
-    private IdleState _idleState;
-    private JumpState _jumpState;
-    private State _currentState;
+    private Rigidbody2D _rigidbody;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
 
     [Header("Movement")]
     [SerializeField] private float _speed = 10f;
 
     [Header("Jump")]
-    [SerializeField] private float _jumpPower = 2f;
+    [SerializeField] private float _jumpPower = 0.1f;
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private float _legsDistance = 0.4f;
     [SerializeField] private Transform _legs;
-
-    public float Speed => _speed;
-    public float JumpPower => _jumpPower;
+    [SerializeField] private bool _isJump = false;
 
     private void Start()
     {
-        _runState = new RunState(this);
-        _idleState = new IdleState(this);
-        _jumpState = new JumpState(this);
-        _stateMachine = new StateMachine();
-        _stateMachine.Initialize(_idleState);
-        _currentState = _idleState;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        _stateMachine.CurrentState.Update();
-
         Move();
         Jump();
     }
@@ -43,35 +34,20 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         float velocityX = Input.GetAxis("Horizontal");
+        _rigidbody.velocity = new Vector2(_speed * velocityX, _rigidbody.velocity.y);
+        _animator.SetBool("isRunning", velocityX != 0);
 
-        if (Mathf.Abs(velocityX) > 0 && _currentState != _runState)
-        {
-            _stateMachine.ChangeState(_runState);
-            _currentState = _runState;
-        }
-        else
-        {
-            if (_currentState != _idleState)
-            {
-                _stateMachine.ChangeState(_idleState);
-                _currentState= _idleState;
-            }
-        }
+        if (velocityX != 0)       
+            _spriteRenderer.flipX = velocityX < 0;      
     }
 
     private void Jump()
     {
         float velocityY = Input.GetAxis("Jump");
+        _isJump = !Physics2D.OverlapCircle(_legs.position, _legsDistance, _groundMask);
+        _animator.SetBool("isJumping", _isJump);
 
-        if (velocityY > 0)
-        {
-            _stateMachine.ChangeState(_jumpState);
-        }
-
-        if (Physics.CheckSphere(_legs.position, _legsDistance, _groundMask))
-        {
-            Debug.Log("Grounded");
-            _stateMachine.ChangeState(_idleState);
-        }
+        if (velocityY > 0 && _isJump == false)
+            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
     }
 }
