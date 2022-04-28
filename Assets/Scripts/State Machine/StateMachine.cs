@@ -5,6 +5,7 @@ public class StateMachine
     public void Initialize(State startState)
     {
         CurrentState = startState;
+        CurrentState.Enter();
     }
 
     public void ChangeState(State newState)
