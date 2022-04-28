@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioClip _stepsSound;
     [SerializeField] private AudioClip _jumpSound;
+    [SerializeField] private AudioClip _coinSound;
 
     public void PlayJumpSound()
     {
@@ -72,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Coin"))
         {
-            AudioManager.Instance.PlayCoinSound();
+            _audioSource.PlayOneShot(_coinSound);
             Destroy(collision.gameObject);
         }
     }
