@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Collider2D))]
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
