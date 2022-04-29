@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Transform))]
 public class EnemyAI : MonoBehaviour
 {
-    private SpriteRenderer _spriteRenderer;
-    private PlayerController _player;
-    private Vector3 _startPoint;
     [SerializeField] private float _aggroDistanceX = 5f;
     [SerializeField] private float _aggroDistanceY = 2f;
     [SerializeField] private float _minimalStartPointDistance = 0.1f;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private int _direction = 1;
     [SerializeField] private Sprite[] _sprites;
+    [SerializeField] private Player _player;
 
-    void Start()
+    private SpriteRenderer _spriteRenderer;
+    private Vector3 _startPoint;
+
+    private void Start()
     {
         _startPoint = transform.position;
-        _player = FindObjectOfType<PlayerController>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         if (_player == null)
             return;

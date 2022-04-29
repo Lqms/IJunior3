@@ -9,13 +9,8 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Collider2D))]
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody;
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
-    private AudioSource _audioSource;
-
     [Header("Movement")]
     [SerializeField] private float _speed = 10f;
 
@@ -31,6 +26,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip _jumpSound;
     [SerializeField] private AudioClip _coinSound;
 
+    private Rigidbody2D _rigidbody;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
+    private AudioSource _audioSource;
+
+    private const string IsRunning = "IsRunning";
+    private const string IsJumping = "IsJumping";
+
     public void PlayJumpSound()
     {
         _audioSource.PlayOneShot(_jumpSound);
@@ -39,6 +42,11 @@ public class PlayerController : MonoBehaviour
     public void PlayStepsSound()
     {
         _audioSource.PlayOneShot(_stepsSound);
+    }
+
+    public void Die()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Start()
@@ -59,7 +67,7 @@ public class PlayerController : MonoBehaviour
     {
         float velocityX = Input.GetAxis("Horizontal");
         _rigidbody.velocity = new Vector2(_speed * velocityX, _rigidbody.velocity.y);
-        _animator.SetBool("isRunning", velocityX != 0);
+        _animator.SetBool(IsRunning, velocityX != 0);
 
         if (velocityX != 0)       
             _spriteRenderer.flipX = velocityX < 0;      
@@ -69,7 +77,7 @@ public class PlayerController : MonoBehaviour
     {
         float velocityY = Input.GetAxis("Jump");
         _isJump = !Physics2D.OverlapCircle(_legs.position, _legsDistance, _groundMask);
-        _animator.SetBool("isJumping", _isJump);
+        _animator.SetBool(IsJumping, _isJump);
 
         if (velocityY > 0 && _isJump == false)
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse); 
@@ -77,17 +85,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Coin"))
-        {
-            _audioSource.PlayOneShot(_coinSound);
-            Destroy(collision.gameObject);
-        }
-
-        if (collision.CompareTag("Enemy"))
-        {
-            SceneManager.LoadScene(0);
-        }
-
         if (collision.CompareTag("Portal"))
         {
             Application.Quit();
