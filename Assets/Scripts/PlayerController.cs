@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
@@ -71,8 +72,7 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("isJumping", _isJump);
 
         if (velocityY > 0 && _isJump == false)
-            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-        
+            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse); 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,6 +81,16 @@ public class PlayerController : MonoBehaviour
         {
             _audioSource.PlayOneShot(_coinSound);
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        if (collision.CompareTag("Portal"))
+        {
+            Application.Quit();
         }
     }
 }
