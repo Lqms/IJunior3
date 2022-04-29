@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 6097719}
   - component: {fileID: 6097718}
   - component: {fileID: 6097717}
+  - component: {fileID: 6097720}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Portal
@@ -232,6 +233,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6097720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6097716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78916842655b5444b92b734ad6aa663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &111704006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3208,6 +3221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walking Mace
       objectReference: {fileID: 0}
+    - target: {fileID: 7376578309409096530, guid: c0416c70b3ee52143b63dd70c595ed19, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1902675303}
     - target: {fileID: 7376578309409096535, guid: c0416c70b3ee52143b63dd70c595ed19, type: 3}
       propertyPath: m_RootOrder
       value: 1
