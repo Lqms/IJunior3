@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
@@ -46,7 +45,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        SceneManager.LoadScene(0);
+        GameManager.Instance.LoadExit();
     }
 
     private void Start()
@@ -81,13 +80,5 @@ public class Player : MonoBehaviour
 
         if (velocityY > 0 && _isJump == false)
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse); 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Portal"))
-        {
-            Application.Quit();
-        }
     }
 }
