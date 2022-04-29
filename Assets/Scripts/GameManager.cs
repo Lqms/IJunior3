@@ -5,21 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-
-    public static GameManager Instance => _instance;
+    public static GameManager Instance { get; private set; }
 
     private void OnEnable()
     {
-        if (_instance == null) _instance = this;
+        if (Instance == null) Instance = this;
     }
 
     private void OnDisable()
     {
-        if (_instance == this) _instance = null;
+        if (Instance == this) Instance = null;
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadExit()
+    public void ReloadLevel()
     {
         SceneManager.LoadScene(0);
     }

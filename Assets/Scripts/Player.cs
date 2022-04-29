@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        GameManager.Instance.LoadExit();
+        GameManager.Instance.ReloadLevel();
     }
 
     private void Start()

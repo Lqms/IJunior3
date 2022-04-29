@@ -16,7 +16,7 @@ public class CameraZoom : MonoBehaviour
         _camera = GetComponent<Camera>();
     }
 
-    void Update()
+    private void Update()
     {
         float zoomValue = Input.GetAxis("Mouse ScrollWheel");
 
