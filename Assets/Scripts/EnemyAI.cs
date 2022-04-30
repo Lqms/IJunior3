@@ -16,6 +16,8 @@ public class EnemyAI : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Vector3 _startPoint;
+    private int _rightDirection = 1;
+    private int _leftDirection = -1;
 
     private void Start()
     {
@@ -44,9 +46,9 @@ public class EnemyAI : MonoBehaviour
     private void DetermineDirection(float otherPointX)
     {
         if (transform.position.x > otherPointX)
-            _direction = -1;
+            _direction = _leftDirection;
         else
-            _direction = 1;
+            _direction = _rightDirection;
     }
 
     private void Move(Sprite movingSprite)
