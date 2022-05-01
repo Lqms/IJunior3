@@ -9,12 +9,14 @@ public class Game : MonoBehaviour
 
     private void OnEnable()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null) 
+            Instance = this;
     }
 
     private void OnDisable()
     {
-        if (Instance == this) Instance = null;
+        if (Instance == this) 
+            Instance = null;
     }
 
     private void Update()

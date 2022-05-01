@@ -6,7 +6,7 @@ public class SawRotator : MonoBehaviour
 {
     [SerializeField] private float _rotateSpeed = 200f;
 
-    void Update()
+    private void Update()
     {
         transform.Rotate(0, 0, _rotateSpeed);
     }
