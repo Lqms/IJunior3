@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : Enemy
 {
     [SerializeField] private float _aggroDistanceX = 5f;
     [SerializeField] private float _aggroDistanceY = 2f;
