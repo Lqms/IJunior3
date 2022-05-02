@@ -5,19 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AI : Enemy
 {
-    [SerializeField] private float _aggroDistanceX = 5f;
-    [SerializeField] private float _aggroDistanceY = 2f;
     [SerializeField] private float _minimalStartPointDistance = 0.1f;
     [SerializeField] private float _speed = 2f;
+    [SerializeField] private float _hitDistance = 1f;
     [SerializeField] private int _direction = 1;
     [SerializeField] private Sprite _spriteAggro;
     [SerializeField] private Sprite _spriteSleep;
-    [SerializeField] private Player _player;
+    [SerializeField] private Player _target;
 
     private SpriteRenderer _spriteRenderer;
     private Vector3 _startPoint;
-    private int _rightDirection = 1;
-    private int _leftDirection = -1;
+    private bool _isTargetVisible = false;
+
+    private const int RightDirection = 1;
+    private const int LeftDirection = -1;
 
     private void Start()
     {
@@ -27,14 +28,16 @@ public class AI : Enemy
 
     private void FixedUpdate()
     {
-        if (_player == null)
+        if (_target == null)
             return;
 
-        if (Vector2.Distance(_player.transform.position, transform.position) < _aggroDistanceX &&
-            Mathf.Abs(_player.transform.position.y - transform.position.y) < _aggroDistanceY)
+        if (_isTargetVisible)
         {
-            DetermineDirection(_player.transform.position.x);
+            DetermineDirection(_target.transform.position.x);
             Move(_spriteAggro);
+
+            if (Vector2.Distance(transform.position, _target.transform.position) < _hitDistance)
+                _target.Die();
         }
         else if (Vector2.Distance(_startPoint, transform.position) > _minimalStartPointDistance)
         {
@@ -43,12 +46,28 @@ public class AI : Enemy
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Player player))
+        {
+            _isTargetVisible = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out Player player))
+        {
+            _isTargetVisible = false;
+        }
+    }
+
     private void DetermineDirection(float otherPointX)
     {
         if (transform.position.x > otherPointX)
-            _direction = _leftDirection;
+            _direction = LeftDirection;
         else
-            _direction = _rightDirection;
+            _direction = RightDirection;
     }
 
     private void Move(Sprite movingSprite)
