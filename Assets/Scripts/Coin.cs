@@ -6,6 +6,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     [SerializeField] private GameObject _coinSoundPrefab;
+
     private float _timeToDestroy = 1f;
 
     private void OnTriggerEnter2D(Collider2D collision)
