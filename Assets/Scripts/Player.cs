@@ -10,6 +10,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("SceneHandler")]
+    [SerializeField] private SceneHandler _sceneHandler;
+
     [Header("Movement")]
     [SerializeField] private float _speed = 10f;
 
@@ -45,7 +48,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        Game.Instance.ReloadLevel();
+        _sceneHandler.ReloadLevel();
     }
 
     private void Start()
