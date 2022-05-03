@@ -3222,9 +3222,13 @@ PrefabInstance:
       value: Walking Mace
       objectReference: {fileID: 0}
     - target: {fileID: 7376578309409096530, guid: c0416c70b3ee52143b63dd70c595ed19, type: 3}
-      propertyPath: _player
+      propertyPath: _target
       value: 
       objectReference: {fileID: 1902675303}
+    - target: {fileID: 7376578309409096530, guid: c0416c70b3ee52143b63dd70c595ed19, type: 3}
+      propertyPath: _hitDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7376578309409096535, guid: c0416c70b3ee52143b63dd70c595ed19, type: 3}
       propertyPath: m_RootOrder
       value: 1
